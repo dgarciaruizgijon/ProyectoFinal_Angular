@@ -7,43 +7,59 @@ use Illuminate\Http\Request;
 
 class CriticaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // 1. Listar todas (Método GET) para ecuperar todas las críticas de la BD
     public function index()
     {
-        //
+        return response()->json(Critica::all(), 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // 2. Post para guarda una nueva crítica
     public function store(Request $request)
     {
-        //
+        // Validamos que nos manden los datos bien
+        $request->validate([
+            'pelicula_id' => 'required',
+            'titulo' => 'required|string',
+            'comentario' => 'required|string',
+            'puntuacion' => 'required|integer|min:1|max:10',
+        ]);
+
+        // Creamos la crítica y la guardamos
+        $critica = Critica::create($request->all());
+        return response()->json($critica, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Critica $critica)
+    // 3. Get para buscar una crítica por su id
+    public function show($id)
     {
-        //
+        $critica = Critica::find($id);
+        if (!$critica) {
+            return response()->json(['mensaje' => 'Crítica no encontrada'], 404);
+        }
+        return response()->json($critica, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Critica $critica)
+    // 4.Put para actualizar una crítica que ya existe
+    public function update(Request $request, $id)
     {
-        //
+        $critica = Critica::find($id);
+        if (!$critica) {
+            return response()->json(['mensaje' => 'Crítica no encontrada'], 404);
+        }
+
+        $critica->update($request->all());
+        return response()->json($critica, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Critica $critica)
+    // 5. Delete para borra una crítica
+    public function destroy($id)
     {
-        //
+        $critica = Critica::find($id);
+        if (!$critica) {
+            return response()->json(['mensaje' => 'Crítica no encontrada'], 404);
+        }
+
+        $critica->delete();
+        return response()->json(['mensaje' => 'Crítica eliminada correctamente'], 200);
     }
 }
