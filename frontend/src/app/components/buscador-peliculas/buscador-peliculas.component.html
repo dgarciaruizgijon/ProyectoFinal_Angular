@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2>Buscador de Películas</h2>
+        <hr>
+
+        <div class="row mb-4">
+            <div class="col-md-9">
+                <input type="text" #inputBuscar class="form-control" placeholder="Escribe el nombre de la película..."
+                    (keyup.enter)="buscar(inputBuscar.value)">
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100" (click)="buscar(inputBuscar.value)">
+                    Buscar
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="mensajeError" class="alert alert-danger">
+            {{ mensajeError }}
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 mb-4" *ngFor="let peli of peliculas">
+                <div class="card">
+
+                    <img *ngIf="peli.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + peli.poster_path"
+                        class="card-img-top" alt="Póster de la película">
+
+                    <img *ngIf="!peli.poster_path" src="https://via.placeholder.com/500x750?text=Sin+Imagen"
+                        class="card-img-top" alt="Sin imagen">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ peli.title }}</h5>
+                        <p class="card-text">Año: {{ peli.release_date | date:'yyyy' }}</p>
+                        <button class="btn btn-primary">Añadir Crítica</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
