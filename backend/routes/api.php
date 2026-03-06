@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CriticaController;
 
 // Ruta que crea las 5 operaciones del CRUD automáticamente
-Route::apiResource('reviews', ReviewController::class);
+Route::apiResource('criticas', CriticaController::class);
