@@ -1,1 +1,27 @@
-<router-outlet />
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <a class="navbar-brand text-warning fw-bold" routerLink="/buscar">🎬 Cineapolis DavidG</a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/buscar" routerLinkActive="active">🔍 Buscar Películas</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/mis-criticas" routerLinkActive="active">⭐ Mis Críticas</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="mb-5">
+  <router-outlet></router-outlet>
+</main>
