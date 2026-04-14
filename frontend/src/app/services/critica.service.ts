@@ -27,7 +27,6 @@ export class CriticaService {
     return this.http.put(`${this.apiUrl}/${id}`, critica);
   }
 
-
   borrarCritica(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }

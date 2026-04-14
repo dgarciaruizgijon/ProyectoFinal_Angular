@@ -10,6 +10,7 @@ import { CriticaService } from '../services/critica.service';
 export class MisCriticasComponent implements OnInit {
   // Guardar la lista de críticas que nos devuelva laravel
   criticas: any[] = [];
+  criticaEditando: any = null;
 
   constructor(private criticaService: CriticaService) {}
 
@@ -44,5 +45,30 @@ export class MisCriticasComponent implements OnInit {
         }
       });
     }
+  }
+
+  iniciarEdicion(critica: any) {
+    
+    this.criticaEditando = { ...critica };
+  }
+
+  // Al pulsar el botón Cancelar
+  cancelarEdicion() {
+    this.criticaEditando = null;
+  }
+
+  // Guardar
+  guardarEdicion() {
+    this.criticaService.actualizarCritica(this.criticaEditando.id, this.criticaEditando).subscribe({
+      next: () => {
+        alert('¡Crítica actualizada con éxito!');
+        this.criticaEditando = null;
+        this.cargarCriticas(); // Recargamos la lista para ver los cambios
+      },
+      error: (err) => {
+        console.error('Error al actualizar:', err);
+        alert('Hubo un error al intentar editar la crítica.');
+      }
+    });
   }
 }
