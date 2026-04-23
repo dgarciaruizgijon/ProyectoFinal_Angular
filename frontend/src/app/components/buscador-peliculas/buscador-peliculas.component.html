@@ -1,78 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="container mt-4">
+    <h2>Buscador de Películas</h2>
+    <hr>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    <div class="container mt-4">
-        <h2>Buscador de Películas</h2>
-        <hr>
-
-        <div class="row mb-4">
-            <div class="col-md-9">
-                <input type="text" #inputBuscar class="form-control" placeholder="Escribe el nombre de la película..."
-                    (keyup.enter)="buscar(inputBuscar.value)">
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-primary w-100" (click)="buscar(inputBuscar.value)">
-                    Buscar
-                </button>
-            </div>
+    <div class="row mb-4">
+        <div class="col-md-9">
+            <input type="text" #inputBuscar class="form-control" placeholder="Escribe el nombre de la película..."
+                (keyup.enter)="buscar(inputBuscar.value)">
         </div>
-
-        <div *ngIf="mensajeError" class="alert alert-danger">
-            {{ mensajeError }}
+        <div class="col-md-3">
+            <button class="btn btn-primary w-100" (click)="buscar(inputBuscar.value)">
+                Buscar
+            </button>
         </div>
+    </div>
 
-        <div *ngIf="peliculaSeleccionada" class="card mb-5 border-success shadow-sm">
-            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Escribiendo reseña para: {{ peliculaSeleccionada.title }}</h5>
-                <button class="btn-close btn-close-white" (click)="peliculaSeleccionada = null"></button>
-            </div>
-            <div class="card-body">
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Tu comentario:</label>
-                    <textarea class="form-control" rows="2" [(ngModel)]="nuevaCritica.comentario"
-                        placeholder="¿Qué te ha parecido?"></textarea>
+    <div *ngIf="mensajeError" class="alert alert-danger">
+        {{ mensajeError }}
+    </div>
+
+    <div class="row mb-5" *ngIf="peliculas.length > 0">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0 text-center">📊 Comparativa de Puntuaciones (Top 5 resultados)</h5>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Puntuación (1 al 10):</label>
-                    <input type="number" class="form-control w-25" min="1" max="10"
-                        [(ngModel)]="nuevaCritica.puntuacion">
-                </div>
-                <button class="btn btn-success"
-                    (click)="guardarCritica(peliculaSeleccionada); peliculaSeleccionada = null">
-                    Guardar Crítica
-                </button>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3 mb-4" *ngFor="let peli of peliculas">
-                <div class="card h-100 shadow-sm">
-
-                    <img *ngIf="peli.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + peli.poster_path"
-                        class="card-img-top" alt="Póster de la película">
-
-                    <img *ngIf="!peli.poster_path" src="https://via.placeholder.com/500x750?text=Sin+Imagen"
-                        class="card-img-top" alt="Sin imagen">
-
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ peli.title }}</h5>
-                        <p class="card-text text-muted">Año: {{ peli.release_date | date:'yyyy' }}</p>
-
-                        <button class="btn btn-outline-primary mt-auto" (click)="peliculaSeleccionada = peli">
-                            Escribir Crítica
-                        </button>
-                    </div>
+                <div class="card-body">
+                    <app-grafico-peliculas [peliculas]="peliculas"></app-grafico-peliculas>
                 </div>
             </div>
         </div>
     </div>
-</body>
+    <div *ngIf="peliculaSeleccionada" class="card mb-5 border-success shadow-sm">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Escribiendo reseña para: {{ peliculaSeleccionada.title }}</h5>
+            <button class="btn-close btn-close-white" (click)="peliculaSeleccionada = null"></button>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Tu comentario:</label>
+                <textarea class="form-control" rows="2" [(ngModel)]="nuevaCritica.comentario"
+                    placeholder="¿Qué te ha parecido?"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Puntuación (1 al 10):</label>
+                <input type="number" class="form-control w-25" min="1" max="10" [(ngModel)]="nuevaCritica.puntuacion">
+            </div>
+            <button class="btn btn-success" (click)="guardarCritica(peliculaSeleccionada); peliculaSeleccionada = null">
+                Guardar Crítica
+            </button>
+        </div>
+    </div>
 
-</html>
+    <div class="row">
+        <div class="col-md-3 mb-4" *ngFor="let peli of peliculas">
+            <div class="card h-100 shadow-sm">
+
+                <img *ngIf="peli.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + peli.poster_path"
+                    class="card-img-top" alt="Póster de la película">
+
+                <img *ngIf="!peli.poster_path" src="https://via.placeholder.com/500x750?text=Sin+Imagen"
+                    class="card-img-top" alt="Sin imagen">
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ peli.title }}</h5>
+                    <p class="card-text text-muted">Año: {{ peli.release_date | date:'yyyy' }}</p>
+
+                    <button class="btn btn-outline-primary mt-auto" (click)="peliculaSeleccionada = peli">
+                        Escribir Crítica
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

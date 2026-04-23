@@ -2,3 +2,26 @@ $primary: #dc3545;
 $body-bg: #f8f9fa; 
 
 @import "../node_modules/bootstrap/scss/bootstrap";
+
+.card {
+    transition: 0.3s;
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+footer {
+    border-top: 1px solid #dee2e6;
+    padding: 20px 0;
+}
+
+h2 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
